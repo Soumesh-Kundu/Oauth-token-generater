@@ -4,7 +4,6 @@ export default defineEventHandler(async (event)=>{
     try {
         const {code}=getQuery(event)
         const {clientId,clientSecret}=await readBody(event)
-        console.log(origin)
         const OAuth2Client = new google.auth.OAuth2(clientId, clientSecret, `${useRuntimeConfig().origin}/callback`)
         const {tokens}=await OAuth2Client.getToken(code);
         return tokens
