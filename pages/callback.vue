@@ -15,8 +15,15 @@
             </div>
             <span>Please Wait...</span>
         </div>
-        <div v-else>
-            <button type="button" class="px-5 py-3 bg-green-600 text-white font-medium text-lg rounded-md" @click="()=>{downloadRef.click()}">Download token.json</button>
+        <div v-else class="flex flex-col items-center gap-2">
+            <button type="button" class="px-5 py-3 mb-6 text-lg font-medium text-white bg-green-600 rounded-md" @click="()=>{downloadRef.click()}">Download token.json</button>
+            <button type="button" @click="()=>navigateTo('/')" class="flex items-center gap-2 px-5 py-3 text-lg font-medium text-white bg-blue-600 rounded-md">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+</svg>
+
+                Create Another
+            </button>
         </div>
         <a href="" ref="downloadRef" hidden download="token.json"></a>
     </div>
@@ -42,11 +49,10 @@ onMounted(async () => {
                 "Content-type":'application/json'
             },
             body:JSON.stringify({
-                clientId,clientSecret
+                clientId,clientSecret,redirectUri:`${location.protocol}//${location.host}/callback`
             })
         })
         const data = await res.json()
-        console.log(data)
         isLoading.value=false
         sessionStorage.removeItem('clientId')
         sessionStorage.removeItem('clientSecret')
